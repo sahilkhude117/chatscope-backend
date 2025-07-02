@@ -10,9 +10,9 @@ class PDFProcessor:
             chunk_overlap=200,
             length_function=len,
         )
-
+    
     def extract_text_from_pdf(self, file_path: str) -> str:
-        text = ''
+        text = ""
         with open(file_path, 'rb') as file:
             pdf_reader = PyPDF2.PdfReader(file)
             for page in pdf_reader.pages:
@@ -20,22 +20,22 @@ class PDFProcessor:
         return text
     
     def process_pdf(self, file_path: str) -> List[Document]:
-        # Extract Text
+        # Extract text
         text = self.extract_text_from_pdf(file_path)
-
-        # split into chunks
+        
+        # Split into chunks
         chunks = self.text_splitter.split_text(text)
-
-        # create document objects
+        
+        # Create Document objects
         documents = []
         for i, chunk in enumerate(chunks):
             doc = Document(
                 page_content=chunk,
                 metadata={
-                    'source': file_path,
-                    'chunk_index': i
+                    "source": file_path,
+                    "chunk_index": i
                 }
             )
             documents.append(doc)
-
+        
         return documents
